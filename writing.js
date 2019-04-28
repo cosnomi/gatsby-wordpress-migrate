@@ -27,7 +27,10 @@ function writing(header, images, content, dest) {
 
   const finalDestinationFolder = [
     destination,
-    header.title.replace(/\//g, ' of ').replace(/(\"|\'|\\\")/g, ''),
+    header.title
+      .replace(/\//g, ' of ')
+      .replace(/(\"|\'|\\\")/g, '')
+      .replace(/(\r|\n|\t)/g, ''),
   ].join('/');
 
   let srcPath = finalDestinationFolder;
@@ -41,7 +44,9 @@ function writing(header, images, content, dest) {
   }
   const post = `---\n${Object.keys(header).reduce(
     (acc, key) =>
-      header[key] !== undefined ? `${acc}${key}: ${header[key]}\n` : acc,
+      header[key] !== undefined
+        ? `${acc}${key}: ${header[key].toString().replace(/(\r|\n|\t)/g, '')}\n`
+        : acc,
     '',
   )}---\n\n${content}`;
 
