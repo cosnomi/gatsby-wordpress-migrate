@@ -133,6 +133,7 @@ const dataWrangle = async (data, destination) => {
       author: get(post, `['dc:creator'][0]`),
       date: moment(get(post, 'pubDate[0]')).format(),
       categories,
+      post_id: get(post, `['wp:post_id'][0]`) || undefined,
       slug: get(post, `['wp:post_name'][0]`) || undefined,
       excerpt: get(post, `['excerpt:encoded'][0]`)
         ? `"${get(post, `['excerpt:encoded'][0]`)}"`
