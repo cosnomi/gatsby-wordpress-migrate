@@ -137,7 +137,10 @@ const dataWrangle = async (data, destination) => {
         ? `"${get(post, `['excerpt:encoded'][0]`)}"`
         : undefined,
       draft: get(post, `['wp:status'][0]`) !== 'publish',
-      meta_title: `"${getMeta('_yoast_wpseo_title', get(post, 'title[0]'))}"`,
+      meta_title: `"${getMeta(
+        '_yoast_wpseo_title',
+        get(post, 'title[0]'),
+      ).replace(/\"/g, '\\"')}"`,
       twitter_shares: getMeta('essb_c_twitter'),
       facebook_shares: getMeta('essb_c_facebook'),
       kksr_ratings: getMeta('_kksr_ratings'),
