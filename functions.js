@@ -124,7 +124,9 @@ const dataWrangle = async (data, destination) => {
 
     const header = {
       layout: 'post',
-      title: `"${get(post, 'title[0]')}"`,
+      title: `"${get(post, 'title[0]', '')
+        .replace(/\"/g, '\\"')
+        .replace(/(\r|\n|\t)/g, '')}"`,
       image: thumbnail
         ? `./${thumbnail.substring(thumbnail.lastIndexOf('/') + 1)}`
         : undefined,
