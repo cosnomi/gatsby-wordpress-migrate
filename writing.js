@@ -27,7 +27,7 @@ function writing(header, images, content, dest) {
 
   const finalDestinationFolder = [
     destination,
-    header.title.replace(/\//g, ' of '),
+    header.title.replace(/\//g, ' of ').replace(/(\"|\'|\\\")/g, ''),
   ].join('/');
 
   let srcPath = finalDestinationFolder;
