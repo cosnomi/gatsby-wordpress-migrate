@@ -25,13 +25,7 @@ function writing(header, images, content, dest) {
     fs.mkdirSync(destination);
   }
 
-  const finalDestinationFolder = [
-    destination,
-    header.title
-      .replace(/\//g, ' of ')
-      .replace(/(\"|\'|\\\")/g, '')
-      .replace(/(\r|\n|\t)/g, ''),
-  ].join('/');
+  const finalDestinationFolder = [destination, header.post_id].join('/');
 
   let srcPath = finalDestinationFolder;
 
