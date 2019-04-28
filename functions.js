@@ -129,7 +129,7 @@ const dataWrangle = async (data, destination) => {
         ? `./${thumbnail.substring(thumbnail.lastIndexOf('/') + 1)}`
         : undefined,
       author: get(post, `['dc:creator'][0]`),
-      date: moment(get(post, 'pubDate[0]')).format(),
+      date: moment(get(post, 'pubDate[0]', '2999-12-31')).format(),
       categories,
       post_id: get(post, `['wp:post_id'][0]`) || undefined,
       slug: get(post, `['wp:post_name'][0]`) || undefined,
