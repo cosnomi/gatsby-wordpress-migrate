@@ -116,10 +116,17 @@ const dataWrangle = async (data, destination) => {
     content = turndownService.turndown(content);
 
     const categories = post.category
-      ? `[${post.category.map(
-          (category, categoriesIndex) =>
-            `${categoriesIndex > 0 ? ' ' : ''}"${category._}"`,
-        )}]`
+      ? `[${post.category
+          .filter(category => category.$.domain === 'category')
+          .map(
+            (category, categoriesIndex) =>
+              `${categoriesIndex > 0 ? ' ' : ''}"${category._}"`,
+          )}]`
+      : '';
+    const tags = post.category
+      ? `[${post.category
+          .filter(category => category.$.domain === 'post_tag')
+          .map((tag, tagsIndex) => `${tagsIndex > 0 ? ' ' : ''}"${tag._}"`)}]`
       : '';
 
     const header = {
@@ -129,8 +136,11 @@ const dataWrangle = async (data, destination) => {
         ? `./${thumbnail.substring(thumbnail.lastIndexOf('/') + 1)}`
         : undefined,
       author: get(post, `['dc:creator'][0]`),
-      date: moment(get(post, 'pubDate[0]', '2999-12-31')).format(),
+      date: moment(get(post, 'pubDate[0]')).isValid()
+        ? moment(get(post, 'pubDate[0]')).format()
+        : moment('2999-12-31').format(),
       categories,
+      tags,
       post_id: get(post, `['wp:post_id'][0]`) || undefined,
       slug: get(post, `['wp:post_name'][0]`) || undefined,
       excerpt: get(post, `['excerpt:encoded'][0]`)
@@ -141,6 +151,9 @@ const dataWrangle = async (data, destination) => {
         '_yoast_wpseo_title',
         get(post, 'title[0]'),
       ).replace(/\"/g, '\\"')}"`,
+      keywords: getMeta('meta_keywords'),
+      description: getMeta('meta_description'),
+      is_ads_removed_in_page: getMeta('is_ads_removed_in_page'),
       twitter_shares: getMeta('essb_c_twitter'),
       facebook_shares: getMeta('essb_c_facebook'),
       kksr_ratings: getMeta('_kksr_ratings'),
